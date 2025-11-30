@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Resturant
+    public class Resturant : IItemValidating
     {
         [Key(), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -18,5 +19,14 @@ namespace Domain.Models
         public string Address { get; set; }
         public string Status { get; set; }
 
+        public string GetCardPartial()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetValidators()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
