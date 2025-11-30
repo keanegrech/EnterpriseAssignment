@@ -1,1 +1,5 @@
-<Solution />
+<Solution>
+  <Project Path="DataAccess/DataAccess.csproj" Id="69bc4102-5876-4edc-b19a-1b40ae3b8f9b" />
+  <Project Path="Domain/Domain.csproj" Id="5dfc235f-230b-4c79-90ec-7ec8faa89f2b" />
+  <Project Path="Presentation/Presentation.csproj" Id="f5cebc7e-3e46-45e8-86bf-7f253847af42" />
+</Solution>
