@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Context
 {
-    public class ResturantMenuItemDbContext : DbContext
+    public class ResturantMenuItemDbContext : IdentityDbContext
     {
         public ResturantMenuItemDbContext(DbContextOptions<ResturantMenuItemDbContext> options) : base(options) { }
 
