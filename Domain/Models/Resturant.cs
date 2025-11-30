@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Domain.Models
@@ -19,14 +20,24 @@ namespace Domain.Models
         public string Address { get; set; }
         public string Status { get; set; }
 
+        public List<string> GetValidators()
+        {
+            List<string> emails = new List<string>();
+
+            using (StreamReader r = new StreamReader("../admins.json"))
+            {
+                string rawJson = r.ReadToEnd();
+                emails = JsonSerializer.Deserialize<List<string>>(rawJson);
+            }
+
+            return emails;
+
+        }
+
         public string GetCardPartial()
         {
             throw new NotImplementedException();
         }
 
-        public List<string> GetValidators()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
