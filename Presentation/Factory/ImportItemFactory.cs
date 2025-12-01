@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace Presentation.Factory
 {
-    public class ItemFactory
+    public class ImportItemFactory
     {
         private ResturantRepository _resturantRepository;
         private MenuItemRepository _menuItemRepository;
 
-        public ItemFactory (
+        public ImportItemFactory (
             ResturantRepository resturantRepository,
             MenuItemRepository menuItemRepository
             )
