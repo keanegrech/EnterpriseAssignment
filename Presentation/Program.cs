@@ -1,4 +1,5 @@
 using DataAccess.Context;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Data;
@@ -14,6 +15,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ResturantMenuItemDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(ResturantRepository));
+builder.Services.AddScoped(typeof(MenuItemRepository));
 
 var app = builder.Build();
 
