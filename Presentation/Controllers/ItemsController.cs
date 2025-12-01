@@ -2,7 +2,7 @@
 
 namespace Presentation.Controllers
 {
-    public class ResturantsController : Controller
+    public class ItemsController : Controller
     {
         public IActionResult Index()
         {
