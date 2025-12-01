@@ -7,16 +7,11 @@ namespace Presentation.Factory
 {
     public class ImportItemFactory
     {
-        private ResturantRepository _resturantRepository;
-        private MenuItemRepository _menuItemRepository;
+        private ItemsInMemoryRepository _itemsInMemoryRepository;
 
-        public ImportItemFactory (
-            ResturantRepository resturantRepository,
-            MenuItemRepository menuItemRepository
-            )
+        public ImportItemFactory([FromKeyedServices("memory")] IItemsRepository itemsInMemoryRepository)
         {
-            _resturantRepository = resturantRepository;
-            _menuItemRepository = menuItemRepository;
+            _itemsInMemoryRepository = (ItemsInMemoryRepository)itemsInMemoryRepository;
         }
 
         private IItemValidating Build(string json)
@@ -45,11 +40,12 @@ namespace Presentation.Factory
             if (item.GetType() == typeof(Resturant))
             {
                 // This is a resturant
-                _resturantRepository.Add((Resturant)item);
-            } else
+                _itemsInMemoryRepository.Save(item);
+            }
+            else
             {
                 // This is a menu item
-                _menuItemRepository.Add((MenuItem)item);
+                _itemsInMemoryRepository.Save(item);
             }
         }
     }
