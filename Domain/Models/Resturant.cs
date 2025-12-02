@@ -20,6 +20,8 @@ namespace Domain.Models
         public string Address { get; set; }
         public string Status { get; set; }
 
+        public string ImportId { get; set; }
+
         public List<string> GetValidators()
         {
             List<string> emails = new List<string>();

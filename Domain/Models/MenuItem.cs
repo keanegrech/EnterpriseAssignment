@@ -21,6 +21,9 @@ namespace Domain.Models
         public int ResturantFK { get; set; }
         public string Status { get; set; }
 
+        public string ImportId { get; set; }
+        public string ImportFK { get; set; }
+
         public List<string> GetValidators()
         {
             List<string> emails = new List<string>
