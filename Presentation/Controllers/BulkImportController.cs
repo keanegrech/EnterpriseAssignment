@@ -10,12 +10,16 @@ namespace Presentation.Controllers
 {
     public class BulkImportController : Controller
     {
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult BulkImport([FromBody] JsonElement json, [FromKeyedServices("memory")] IItemsRepository itemsInMemoryRepository)
+        public IActionResult BulkImport(string rawJson, [FromKeyedServices("memory")] IItemsRepository itemsInMemoryRepository)
         {
             ImportItemFactory factory = new ImportItemFactory();
-
-            string rawJson = json.GetRawText();
 
             List<IItemValidating> items = factory.Create(rawJson);
 
@@ -34,6 +38,15 @@ namespace Presentation.Controllers
             string outName = $"wwwroot\\gen\\{Guid.NewGuid()}.zip";
             Compression.MakeZipFile(importIds, outName);
 
+            string webPath = outName.Replace("wwwroot\\gen\\", "/gen/");
+
+            ViewData["zipPath"] = webPath;
+            return View("Commit");
+        }
+
+        [HttpPost]
+        public IActionResult Commit(IFormFile zipFile)
+        {
             return Ok();
         }
     }

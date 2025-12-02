@@ -1,0 +1,12 @@
+﻿<h1>Step 2</h1>
+<h2>Download the ZIP file, replace the images, then upload said ZIP file back.</h2>
+
+<a href="@ViewData["zipPath"]" class="btn btn-primary">Download ZIP file</a>
+
+<form>
+	<div class="form-group">
+		<label for="zipFile">Upload modified ZIP file:</label>
+		<input type="file" class="form-control-file" id="zipFile" name="zipFile" accept=".zip" />
+	</div>
+	<input type="submit" class="btn btn-success">Upload ZIP file />
+</form>
