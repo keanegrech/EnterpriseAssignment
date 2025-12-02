@@ -21,6 +21,8 @@ namespace Domain.Models
         public int ResturantFK { get; set; }
         public string Status { get; set; }
 
+        public string ImagePath { get; set; }
+
         public string ImportId { get; set; }
         public string ImportFK { get; set; }
 
