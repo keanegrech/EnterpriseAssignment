@@ -33,11 +33,13 @@ namespace DataAccess.Repositories
             if (item.GetType() == typeof(Resturant))
             {
                 _context.Resturants.Add((Resturant)item);
+                _context.SaveChanges();
                 return item;
             }
             else if (item.GetType() == typeof(MenuItem))
             {
                 _context.MenuItems.Add((MenuItem)item);
+                _context.SaveChanges();
                 return item;
             }
 

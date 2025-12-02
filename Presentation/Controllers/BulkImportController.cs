@@ -14,9 +14,17 @@ namespace Presentation.Controllers
         {
             string rawJson = json.GetRawText();
 
-            ImportItemFactory factory = new ImportItemFactory(itemsInMemoryRepository);
+            ImportItemFactory factory = new ImportItemFactory();
 
-            factory.Create(rawJson);
+            List<IItemValidating> items = factory.Create(rawJson);
+
+            foreach (IItemValidating item in items)
+            {
+                itemsInMemoryRepository.Save(item);
+            }
+
+            List<Resturant> resturants = itemsInMemoryRepository.GetResturants().ToList();
+            List<MenuItem> menuItems = itemsInMemoryRepository.GetMenuItems().ToList();
 
             return Ok();
         }

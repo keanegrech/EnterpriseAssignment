@@ -37,13 +37,17 @@ namespace DataAccess.Repositories
             if (item.GetType() == typeof(Resturant))
             {
                 var resturants = _memoryCache.Get<List<Resturant>>("Resturants") ?? new List<Resturant>();
-                resturants.Add((Resturant)item);
+                var restaurant = (Resturant)item;
+                restaurant.Id = resturants.Count > 0 ? resturants.Max(r => r.Id) + 1 : 1;
+                resturants.Add(restaurant);
                 _memoryCache.Set("Resturants", resturants);
             }
             else if (item.GetType() == typeof(MenuItem))
             {
                 var menuItems = _memoryCache.Get<List<MenuItem>>("MenuItems") ?? new List<MenuItem>();
-                menuItems.Add((MenuItem)item);
+                var menuItem = (MenuItem)item;
+                menuItem.Id = Guid.NewGuid();
+                menuItems.Add(menuItem);
                 _memoryCache.Set("MenuItems", menuItems);
             }
 
