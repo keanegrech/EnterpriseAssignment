@@ -4,6 +4,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Factory;
 using Presentation.Helpers;
+using System.IO.Compression;
 using System.Text.Json;
 
 namespace Presentation.Controllers
@@ -47,6 +48,8 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult Commit(IFormFile zipFile)
         {
+            Dictionary<string, Guid> idToGuid = Compression.SaveAndRetrieveImageMap(zipFile);
+
             return Ok();
         }
     }

@@ -3,10 +3,10 @@
 
 <a href="@ViewData["zipPath"]" class="btn btn-primary">Download ZIP file</a>
 
-<form>
+<form enctype="multipart/form-data" action="/BulkImport/Commit" method="post">
 	<div class="form-group">
 		<label for="zipFile">Upload modified ZIP file:</label>
 		<input type="file" class="form-control-file" id="zipFile" name="zipFile" accept=".zip" />
 	</div>
-	<input type="submit" class="btn btn-success">Upload ZIP file />
+	<input type="submit" value="Submit" class="btn btn-success" />
 </form>

@@ -21,5 +21,31 @@ namespace Presentation.Helpers
                 }
             }
         }
+
+        public static Dictionary<string, Guid> SaveAndRetrieveImageMap(IFormFile zipFile)
+        {
+            Dictionary<string, Guid> idToGuid = new Dictionary<string, Guid>();
+            using (var zipArchive = new ZipArchive(zipFile.OpenReadStream()))
+            {
+                foreach (var entry in zipArchive.Entries)
+                {
+                    using (var entryStream = entry.Open())
+                    {
+                        Guid gen = Guid.NewGuid();
+
+                        idToGuid[entry.Name.Split(".")[0]] = gen;
+
+                        string outputPath = $"wwwroot\\imgs\\{gen}.jpg";
+
+                        using (var fileStream = new FileStream(outputPath, FileMode.Create))
+                        {
+                            entryStream.CopyTo(fileStream);
+                        }
+                    }
+                }
+            }
+
+            return idToGuid;
+        }
     }
 }
