@@ -32,16 +32,22 @@ namespace DataAccess.Repositories
             return resturants.AsQueryable();
         }
 
-        public void Save(IItemValidating item)
+        public IItemValidating Save(IItemValidating item)
         {
             if (item.GetType() == typeof(Resturant))
             {
-                _memoryCache.Set("Resturants", (Resturant)item);
+                var resturants = _memoryCache.Get<List<Resturant>>("Resturants") ?? new List<Resturant>();
+                resturants.Add((Resturant)item);
+                _memoryCache.Set("Resturants", resturants);
             }
             else if (item.GetType() == typeof(MenuItem))
             {
-                _memoryCache.Set("MenuItems", (MenuItem)item);
+                var menuItems = _memoryCache.Get<List<MenuItem>>("MenuItems") ?? new List<MenuItem>();
+                menuItems.Add((MenuItem)item);
+                _memoryCache.Set("MenuItems", menuItems);
             }
+
+            return item;
         }
     }
 }

@@ -28,16 +28,20 @@ namespace DataAccess.Repositories
             return _context.Resturants;
         }
 
-        public void Save(IItemValidating item)
+        public IItemValidating Save(IItemValidating item)
         {
             if (item.GetType() == typeof(Resturant))
             {
                 _context.Resturants.Add((Resturant)item);
+                return item;
             }
             else if (item.GetType() == typeof(MenuItem))
             {
                 _context.MenuItems.Add((MenuItem)item);
+                return item;
             }
+
+            return null;
         }
     }
 }
