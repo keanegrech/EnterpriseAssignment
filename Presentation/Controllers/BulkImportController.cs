@@ -31,9 +31,13 @@ namespace Presentation.Controllers
                 itemsInMemoryRepository.Save(item);
 
                 if (item is MenuItem menuItem)
+                {
                     importIds.Add(menuItem.ImportId);
+                }
                 else if (item is Resturant resturant)
+                {
                     importIds.Add(resturant.ImportId);
+                }
             }
 
             string outName = $"wwwroot\\gen\\{Guid.NewGuid()}.zip";
@@ -46,11 +50,38 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Commit(IFormFile zipFile)
+        public IActionResult Commit(IFormFile zipFile, [FromKeyedServices("memory")] IItemsRepository itemsInMemoryRepository, [FromKeyedServices("db")] IItemsRepository itemsInDatabaseRepository)
         {
             Dictionary<string, Guid> idToGuid = Compression.SaveAndRetrieveImageMap(zipFile);
+
+            List<Resturant> resturants = itemsInMemoryRepository.GetResturants().ToList();
+            Dictionary<string, Resturant> importIdToResturant = new Dictionary<string, Resturant>();
+
+            foreach (Resturant resturant in resturants)
+            {
+                resturant.Id = 0;
+
+                resturant.ImagePath = $"/wwwroot/imgs/{idToGuid[resturant.ImportId]}.png";
+
+                importIdToResturant[resturant.ImportId] = resturant;
+
+                itemsInDatabaseRepository.Save(resturant);
+            }
+
+            List<MenuItem> menuItems = itemsInMemoryRepository.GetMenuItems().ToList();
+
+            foreach (MenuItem menuItem in menuItems)
+            {
+                menuItem.Id = Guid.NewGuid();
+                menuItem.ResturantFK = importIdToResturant[menuItem.ImportFK].Id;
+
+                menuItem.ImagePath = $"/wwwroot/imgs/{idToGuid[menuItem.ImportId]}.png";
+
+                itemsInDatabaseRepository.Save(menuItem);
+            }
 
             return Ok();
         }
     }
 }
+
