@@ -18,6 +18,11 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
+        public void DeleteAll()
+        {
+            throw new NotSupportedException();
+        }
+
         public IQueryable<MenuItem> GetMenuItems()
         {
             return _context.MenuItems;

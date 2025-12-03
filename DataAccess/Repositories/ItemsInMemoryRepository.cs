@@ -20,6 +20,12 @@ namespace DataAccess.Repositories
             _memoryCache = memoryCache;
         }
 
+        public void DeleteAll()
+        {
+            _memoryCache.Remove("Resturants");
+            _memoryCache.Remove("MenuItems");
+        }
+
         public IQueryable<MenuItem> GetMenuItems()
         {
             var menuItems = _memoryCache.Get<List<MenuItem>>("MenuItems");

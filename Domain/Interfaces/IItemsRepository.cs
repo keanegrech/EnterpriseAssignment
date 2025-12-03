@@ -12,5 +12,6 @@ namespace Domain.Interfaces
         IQueryable<Resturant> GetResturants();
         IQueryable<MenuItem> GetMenuItems();
         IItemValidating Save(IItemValidating item);
+        void DeleteAll();
     }
 }

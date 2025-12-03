@@ -80,6 +80,9 @@ namespace Presentation.Controllers
                 itemsInDatabaseRepository.Save(menuItem);
             }
 
+            // wipe in memory db
+            itemsInMemoryRepository.DeleteAll();
+
             return Ok();
         }
     }
