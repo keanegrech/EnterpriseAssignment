@@ -61,7 +61,7 @@ namespace Presentation.Controllers
             {
                 resturant.Id = 0;
 
-                resturant.ImagePath = $"/wwwroot/imgs/{idToGuid[resturant.ImportId]}.png";
+                resturant.ImagePath = $"/imgs/{idToGuid[resturant.ImportId]}.jpg";
 
                 importIdToResturant[resturant.ImportId] = resturant;
 
@@ -75,7 +75,7 @@ namespace Presentation.Controllers
                 menuItem.Id = Guid.NewGuid();
                 menuItem.ResturantFK = importIdToResturant[menuItem.ImportFK].Id;
 
-                menuItem.ImagePath = $"/wwwroot/imgs/{idToGuid[menuItem.ImportId]}.png";
+                menuItem.ImagePath = $"/imgs/{idToGuid[menuItem.ImportId]}.jpg";
 
                 itemsInDatabaseRepository.Save(menuItem);
             }

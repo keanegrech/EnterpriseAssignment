@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Domain.Interfaces.IItemValidating>
+
+@{
+	var viewType = ViewBag.ViewType;
+}
+
+
+@if (viewType == "card")
+{
+	<h1>Restuarants</h1>
+
+	<div class="row">
+		@foreach (var item in Model)
+		{
+			<div class="col-md-4 mb-4">
+				@await Html.PartialAsync("ResturantPartial", item)
+			</div>
+		}
+	</div>
+
+}
+else
+{
+	<h1>Menu Items</h1>
+}
+
+
