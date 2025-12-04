@@ -37,7 +37,7 @@ namespace Domain.Models
 
         public string GetCardPartial()
         {
-            throw new NotImplementedException();
+            return "MenuItemPartial";
         }
 
     }
