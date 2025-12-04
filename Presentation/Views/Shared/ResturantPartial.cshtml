@@ -1,10 +1,19 @@
 ﻿@model Domain.Models.Resturant
 
-<div class="card" style="width: 18rem;">
-    <img src=@Model.ImagePath class="card-img-top" alt=@Model.Name>
+<div class="card border shadow-sm" style="width: 20rem;">
+    <img src="@Model.ImagePath" class="card-img-top" alt="@Model.Name" style="object-fit: cover; height: 180px;">
+
     <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
-        <p class="card-text">@Model.Description</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <h5 class="card-title fw-bold">@Model.Name</h5>
+        <p class="card-text text-muted">@Model.Description</p>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+
+            @if (Model.Status == "pending")
+            {
+                <a href="#" class="btn btn-success btn-sm">Approve</a>
+            }
+        </div>
     </div>
 </div>

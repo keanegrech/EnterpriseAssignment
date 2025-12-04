@@ -10,6 +10,7 @@ namespace Presentation.Controllers
         public IActionResult Catalog([FromKeyedServices("db")] IItemsRepository itemsRepository)
         {
             string viewType = HttpContext.Request.Query["viewtype"];
+            string loggedInName = User.Identity.Name;
 
             // set default
             if (viewType != "card" && viewType != "list")
@@ -23,7 +24,17 @@ namespace Presentation.Controllers
 
             if (viewType == "card")
             {
-                items = itemsRepository.GetResturants().ToList<IItemValidating>();
+                var allResturants = itemsRepository.GetResturants().ToList();
+                if (allResturants.Any(x => x.GetValidators().Contains(loggedInName)))
+                {
+                    // user is an admin
+                    items = allResturants.ToList<IItemValidating>();
+                }
+                else
+                {
+                    items = allResturants.Where(x => x.Status == "approved").ToList<IItemValidating>();
+                }
+
             }
             else if (viewType == "list")
             {

@@ -7,9 +7,9 @@
 
 @if (viewType == "card")
 {
-	<h1>Approved Restuarants</h1>
+	<h1>Restuarants View</h1>
 
-	<div class="row">
+	<div class="row gap-3">
 		@foreach (var item in Model)
 		{
 			<div class="col-md-4 mb-4">
@@ -21,7 +21,7 @@
 }
 else
 {
-	<h1>Approved Menu Items</h1>
+	<h1>Menu Items View</h1>
 
 	<table class="table">
 		<thead>

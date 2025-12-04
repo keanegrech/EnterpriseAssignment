@@ -28,7 +28,11 @@ namespace Domain.Models
         {
             List<string> emails = new List<string>();
 
-            using (StreamReader r = new StreamReader("../admins.json"))
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.Combine(basePath, "..", "..", "..", "..", "Domain", "admins.json");
+            filePath = Path.GetFullPath(filePath);
+
+            using (StreamReader r = new StreamReader(filePath))
             {
                 string rawJson = r.ReadToEnd();
                 emails = JsonSerializer.Deserialize<List<string>>(rawJson);
