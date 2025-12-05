@@ -8,7 +8,7 @@
 @if (viewType == "card")
 {
 	var restaurants = Model.Cast<Domain.Models.Resturant>();
-	<form method="post" action="/Items/Approve">
+	<form method="post" action="/Items/Approve/@viewType">
 
 		<h1>Restuarants View</h1>
 		@if (restaurants.Any(x => x.GetValidators().Contains(User.Identity.Name)))
@@ -21,7 +21,8 @@
 			{
 				<div class="col-md-4 mb-4">
 					@await Html.PartialAsync(item.GetCardPartial(), item)
-					@if (restaurants.Any(x => x.GetValidators().Contains(User.Identity.Name)) && item.Status == "pending")
+
+					@if (item.Status == "pending")
 					{
 						<div class="card mt-3">
 							<div class="card-body">
@@ -30,6 +31,7 @@
 							</div>
 						</div>
 					}
+
 				</div>
 
 
@@ -41,11 +43,21 @@
 }
 else
 {
+	var menuItems = Model.Cast<Domain.Models.MenuItem>();
+
+	<form method="post" action="/Items/Approve/@viewType">
+
 		<h1>Menu Items View</h1>
+
+		@if (User.Identity.Name != null)
+		{
+			<input class="btn-primary" type="submit" value="Approve Selected" />
+		}
 
 		<table class="table">
 			<thead>
 				<tr>
+					<th class="text-center" scope="col">Select</th>
 					<th scope="col">Image</th>
 					<th scope="col">Title</th>
 					<th scope="col">Price</th>
@@ -54,12 +66,27 @@ else
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var item in Model)
+				@foreach (var item in menuItems)
 				{
-					@await Html.PartialAsync(item.GetCardPartial(), item)
+					<tr>
+						@if (item.GetValidators().Contains(User.Identity.Name) && item.Status == "pending")
+						{
+							<td class="border-0 text-center"><input value="@item.Id" name="ids" type="checkbox" /></td>
+						}
+						else
+						{
+							<td class="border-0"></td>
+						}
+
+						@if (item.Status != "pending" || item.GetValidators().Contains(User.Identity.Name))
+						{
+							@await Html.PartialAsync(item.GetCardPartial(), item)
+						}
+					</tr>
 				}
 			</tbody>
 		</table>
+	</form>
 }
 
 

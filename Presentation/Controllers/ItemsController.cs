@@ -9,7 +9,7 @@ namespace Presentation.Controllers
     {
         public IActionResult Catalog([FromKeyedServices("db")] IItemsRepository itemsRepository)
         {
-            string viewType = HttpContext.Request.Query["viewtype"];
+            string viewType = HttpContext.Request.Query["viewType"];
             string loggedInName = User.Identity.Name;
 
             // set default
@@ -25,18 +25,53 @@ namespace Presentation.Controllers
             if (viewType == "card")
             {
                 var allResturants = itemsRepository.GetResturants().ToList();
-
-                items = allResturants.Where(x => x.Status == "approved").ToList<IItemValidating>();
+                if (allResturants.Any(x => x.GetValidators().Contains(loggedInName)))
+                {
+                    // user is an admin
+                    items = allResturants.ToList<IItemValidating>();
+                }
+                else
+                {
+                    items = allResturants.Where(x => x.Status == "approved").ToList<IItemValidating>();
+                }
 
             }
             else if (viewType == "list")
             {
                 var allMenuItems = itemsRepository.GetMenuItems().ToList();
 
-                items = allMenuItems.Where(x => x.Status == "approved").ToList<IItemValidating>();
+                items = allMenuItems.Where(x => x.Resturant.Status == "approved").ToList<IItemValidating>();
             }
 
             return View(items);
+        }
+
+        [AuthorizeFilter]
+        [HttpPost("Items/Approve/{viewType}")]
+        public IActionResult Approve(string viewType, string[] ids, [FromKeyedServices("db")] IItemsRepository itemsRepository)
+        {
+            foreach (var id in ids)
+            {
+                if (int.TryParse(id, out int resturantId))
+                {
+                    // this is a resturant, since resturant ids are ints
+                    itemsRepository.ApproveResturant(resturantId);
+                }
+                else if (Guid.TryParse(id, out Guid menuItemId))
+                {
+                    // this is a menu item, since menu item ids are GUIDs
+                    itemsRepository.ApproveMenuItem(menuItemId);
+                }
+            }
+
+            if (viewType == "list")
+            {
+                return Redirect("/Items/Catalog?viewType=list");
+            }
+            else
+            {
+                return Redirect("/Items/Catalog?viewType=card");
+            }
         }
     }
 }
