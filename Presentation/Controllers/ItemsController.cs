@@ -44,6 +44,7 @@ namespace Presentation.Controllers
             return View(items);
         }
 
+        [AuthorizeFilter]
         [HttpPost]
         public IActionResult Approve(string[] ids, [FromKeyedServices("db")] IItemsRepository itemsRepository)
         {

@@ -20,6 +20,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddKeyedScoped(typeof(IItemsRepository), "db", typeof(ItemsDbRepository));
 builder.Services.AddKeyedScoped(typeof(IItemsRepository), "memory", typeof(ItemsInMemoryRepository));
 
+builder.Services.AddScoped<AuthorizeFilter>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
