@@ -1,6 +1,9 @@
+using Domain.Interfaces;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 public class AuthorizeFilter : ActionFilterAttribute {
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -8,13 +11,14 @@ public class AuthorizeFilter : ActionFilterAttribute {
         if (context.ActionArguments.TryGetValue("ids", out var idsObj) && idsObj is string[] ids)
         {
             string authenticated = context.HttpContext.User.Identity?.Name;
+            var itemsRepository = context.HttpContext.RequestServices.GetRequiredKeyedService<IItemsRepository>("db");
 
             foreach (var id in ids)
             {
                 if (int.TryParse(id, out int resturantId))
                 {
-                    Resturant resturant = new Resturant();
-                    if (!resturant.GetValidators().Contains(authenticated))
+                    Resturant resturant = itemsRepository.GetResturants().FirstOrDefault(r => r.Id == resturantId);
+                    if (resturant == null || !resturant.GetValidators().Contains(authenticated))
                     {
                         context.Result = new ForbidResult();
                         return;
@@ -22,9 +26,11 @@ public class AuthorizeFilter : ActionFilterAttribute {
                 }
                 else if (Guid.TryParse(id, out Guid menuItemId))
                 {
-                    MenuItem menuItem = new MenuItem();
+                    MenuItem menuItem = itemsRepository.GetMenuItems()
+                        .Include(m => m.Resturant)
+                        .FirstOrDefault(m => m.Id == menuItemId);
 
-                    if (!menuItem.GetValidators().Contains(authenticated))
+                    if (menuItem == null || !menuItem.GetValidators().Contains(authenticated))
                     {
                         context.Result = new ForbidResult();
                         return;

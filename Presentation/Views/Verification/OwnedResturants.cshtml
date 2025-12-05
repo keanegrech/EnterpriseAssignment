@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Domain.Interfaces.IItemValidating>
+
+@{
+	var menuItems = Model.Cast<Domain.Models.MenuItem>();
+}
+
+<h1>Owned Resturants</h1>
+
+<div class="accordion" id="accordionExample">
+
+	@foreach (var item in menuItems)
+	{
+		<div class="col-md-4 mb-4">
+			@await Html.PartialAsync(item.Resturant.GetCardPartial(), item.Resturant)
+			<div class="card mt-3">
+				<div class="card-body">
+					<a href="/Verification/Verification/@item.Resturant.Id">Go to menu items</a>
+				</div>
+			</div>
+		</div>
+	}
+
+
+</div>

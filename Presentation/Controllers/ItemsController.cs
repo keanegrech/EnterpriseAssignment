@@ -25,44 +25,18 @@ namespace Presentation.Controllers
             if (viewType == "card")
             {
                 var allResturants = itemsRepository.GetResturants().ToList();
-                if (allResturants.Any(x => x.GetValidators().Contains(loggedInName)))
-                {
-                    // user is an admin
-                    items = allResturants.ToList<IItemValidating>();
-                }
-                else
-                {
-                    items = allResturants.Where(x => x.Status == "approved").ToList<IItemValidating>();
-                }
+
+                items = allResturants.Where(x => x.Status == "approved").ToList<IItemValidating>();
 
             }
             else if (viewType == "list")
             {
-                items = itemsRepository.GetMenuItems().ToList<IItemValidating>();
+                var allMenuItems = itemsRepository.GetMenuItems().ToList();
+
+                items = allMenuItems.Where(x => x.Status == "approved").ToList<IItemValidating>();
             }
 
             return View(items);
-        }
-
-        [AuthorizeFilter]
-        [HttpPost]
-        public IActionResult Approve(string[] ids, [FromKeyedServices("db")] IItemsRepository itemsRepository)
-        {
-            foreach (var id in ids)
-            {
-                if (int.TryParse(id, out int resturantId))
-                {
-                    // this is a resturant, since resturant ids are ints
-                    itemsRepository.ApproveResturant(resturantId);
-                }
-                else if (Guid.TryParse(id, out Guid menuItemId))
-                {
-                    // this is a menu item, since menu item ids are GUIDs
-                    itemsRepository.ApproveMenuItem(menuItemId);
-                }
-            }
-
-            return RedirectToAction("Catalog");
         }
     }
 }

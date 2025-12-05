@@ -41,25 +41,25 @@
 }
 else
 {
-	<h1>Menu Items View</h1>
+		<h1>Menu Items View</h1>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">Image</th>
-				<th scope="col">Title</th>
-				<th scope="col">Price</th>
-				<th scope="col">Resturuant</th>
-				<th scope="col">Status</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				@await Html.PartialAsync(item.GetCardPartial(), item)
-			}
-		</tbody>
-	</table>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Image</th>
+					<th scope="col">Title</th>
+					<th scope="col">Price</th>
+					<th scope="col">Resturuant</th>
+					<th scope="col">Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					@await Html.PartialAsync(item.GetCardPartial(), item)
+				}
+			</tbody>
+		</table>
 }
 
 

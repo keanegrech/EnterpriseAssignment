@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Domain.Interfaces.IItemValidating>
+
+
+@{
+	var menuItems = Model.Cast<Domain.Models.MenuItem>();
+}
+<h1>Menu Items View</h1>
+
+<form method="post" action="/Verification/Approve">
+	<input class="btn-primary" type="submit" value="Approve Selected" />
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Image</th>
+				<th scope="col">Title</th>
+				<th scope="col">Price</th>
+				<th scope="col">Resturuant</th>
+				<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in menuItems)
+			{
+				<input type="checkbox" name="ids" value=@item.Id />
+				@await Html.PartialAsync(item.GetCardPartial(), item)
+			}
+		</tbody>
+	</table>
+</form>
