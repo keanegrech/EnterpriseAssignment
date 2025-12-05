@@ -46,6 +46,16 @@ namespace Presentation.Controllers
             return View(items);
         }
 
+        public IActionResult Details(int id, [FromKeyedServices("db")] IItemsRepository itemsRepository)
+        {
+            var resturant = itemsRepository.GetResturants().FirstOrDefault(x => x.Id == id);
+            var menuItems = itemsRepository.GetMenuItems().Where(x => x.Resturant.Id == id && x.Status == "approved").ToList();
+
+            ViewBag.Resturant = resturant;
+
+            return View(menuItems);
+        }
+
         [AuthorizeFilter]
         [HttpPost("Items/Approve/{viewType}")]
         public IActionResult Approve(string viewType, string[] ids, [FromKeyedServices("db")] IItemsRepository itemsRepository)

@@ -27,7 +27,6 @@ public class AuthorizeFilter : ActionFilterAttribute {
                 else if (Guid.TryParse(id, out Guid menuItemId))
                 {
                     MenuItem menuItem = itemsRepository.GetMenuItems()
-                        .Include(m => m.Resturant)
                         .FirstOrDefault(m => m.Id == menuItemId);
 
                     if (menuItem == null || !menuItem.GetValidators().Contains(authenticated))

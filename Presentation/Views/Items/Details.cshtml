@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Domain.Models.MenuItem>
+
+@{
+	var resturant = ViewBag.Resturant as Domain.Models.Resturant;
+}
+
+<h1>Details for @resturant.Name</h1>
+
+<div>
+	<img src="@resturant.ImagePath" alt="@resturant.Name" width="250" height="250" />
+	<p><strong>Description:</strong> @resturant.Description</p>
+	<p><strong>Address:</strong> @resturant.Address</p>
+	<p><strong>Owner:</strong> @resturant.OwnerEmailAddress</p>
+</div>
+
+<h2>Approved Menu Items</h2>
+<table class="table">
+	<thead>
+		<tr>
+			<th class="text-center" scope="col">Select</th>
+			<th scope="col">Image</th>
+			<th scope="col">Title</th>
+			<th scope="col">Price</th>
+			<th scope="col">Resturuant</th>
+			<th scope="col">Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td class="border-0"></td>
+				@await Html.PartialAsync(item.GetCardPartial(), item)
+			</tr>
+		}
+	</tbody>
+</table>
