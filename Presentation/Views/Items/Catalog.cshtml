@@ -7,16 +7,36 @@
 
 @if (viewType == "card")
 {
-	<h1>Restuarants View</h1>
+	var restaurants = Model.Cast<Domain.Models.Resturant>();
+	<form method="post" action="/Items/Approve">
 
-	<div class="row gap-3">
-		@foreach (var item in Model)
+		<h1>Restuarants View</h1>
+		@if (restaurants.Any(x => x.GetValidators().Contains(User.Identity.Name)))
 		{
-			<div class="col-md-4 mb-4">
-				@await Html.PartialAsync(item.GetCardPartial(), item)
-			</div>
+			<input class="btn-primary" type="submit" value="Approve Selected" />
 		}
-	</div>
+
+		<div class="row gap-3">
+			@foreach (var item in restaurants)
+			{
+				<div class="col-md-4 mb-4">
+					@await Html.PartialAsync(item.GetCardPartial(), item)
+					@if (restaurants.Any(x => x.GetValidators().Contains(User.Identity.Name)) && item.Status == "pending")
+					{
+						<div class="card mt-3">
+							<div class="card-body">
+								<input type="checkbox" name="ids" value="@item.Id" />
+								Select for approval
+							</div>
+						</div>
+					}
+				</div>
+
+
+
+			}
+		</div>
+	</form>
 
 }
 else

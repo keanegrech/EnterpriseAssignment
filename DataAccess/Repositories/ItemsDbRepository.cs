@@ -50,5 +50,19 @@ namespace DataAccess.Repositories
 
             return null;
         }
+
+        public void ApproveResturant(int id)
+        {
+            var resturant = GetResturants().FirstOrDefault(r => r.Id == id);
+            resturant.Status = "approved";
+            _context.SaveChanges();
+        }
+
+        public void ApproveMenuItem(Guid id)
+        {
+            var menuItem = GetMenuItems().FirstOrDefault(m => m.Id == id);
+            menuItem.Status = "approved";
+            _context.SaveChanges();
+        }
     }
 }

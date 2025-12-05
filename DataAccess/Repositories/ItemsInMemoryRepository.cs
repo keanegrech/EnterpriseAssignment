@@ -20,6 +20,16 @@ namespace DataAccess.Repositories
             _memoryCache = memoryCache;
         }
 
+        public void ApproveMenuItem(Guid id)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void ApproveResturant(int id)
+        {
+            throw new NotSupportedException();
+        }
+
         public void DeleteAll()
         {
             _memoryCache.Remove("Resturants");
