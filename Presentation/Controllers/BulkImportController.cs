@@ -83,7 +83,7 @@ namespace Presentation.Controllers
             // wipe in memory db
             itemsInMemoryRepository.DeleteAll();
 
-            return Ok();
+            return Redirect("/Items/Catalog");
         }
     }
 }

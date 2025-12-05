@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Domain.Interfaces.IItemValidating>
 
-
 @{
 	var menuItems = Model.Cast<Domain.Models.MenuItem>();
 }
+
 <h1>Menu Items View</h1>
 
 <form method="post" action="/Verification/Approve">
@@ -21,8 +21,10 @@
 		<tbody>
 			@foreach (var item in menuItems)
 			{
-				<input type="checkbox" name="ids" value=@item.Id />
-				@await Html.PartialAsync(item.GetCardPartial(), item)
+				<tr>
+					<td><input type="checkbox" name="ids" value="@item.Id" /></td>
+					<td colspan="4">@await Html.PartialAsync(item.GetCardPartial(), item)</td>
+				</tr>
 			}
 		</tbody>
 	</table>

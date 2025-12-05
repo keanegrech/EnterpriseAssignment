@@ -23,7 +23,7 @@ namespace Presentation.Controllers
             }
             else
             {
-                var menuItems = itemsRepository.GetMenuItems().ToList().Where(x => x.Resturant.OwnerEmailAddress == loggedInName).DistinctBy(x=> x.Resturant.Id);
+                var menuItems = itemsRepository.GetMenuItems().ToList().Where(x => x.Resturant.OwnerEmailAddress == loggedInName && x.Resturant.Status == "approved").DistinctBy(x=> x.Resturant.Id);
 
                 if (id.HasValue)
                 {
