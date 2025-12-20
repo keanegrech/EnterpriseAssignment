@@ -26,20 +26,7 @@ namespace Domain.Models
 
         public List<string> GetValidators()
         {
-            List<string> emails = new List<string>();
-
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.Combine(basePath, "..", "..", "..", "..", "Domain", "admins.json");
-            filePath = Path.GetFullPath(filePath);
-
-            using (StreamReader r = new StreamReader(filePath))
-            {
-                string rawJson = r.ReadToEnd();
-                emails = JsonSerializer.Deserialize<List<string>>(rawJson);
-            }
-
-            return emails;
-
+            return new List<string> { "keaneadmin@email.com", "test@email.com" };
         }
 
         public string GetCardPartial()
